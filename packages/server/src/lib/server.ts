@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import fs from 'fs';
 import path from 'path';
 import config from '~/lib/config';
+import { errorHandler, notFoundHandler } from '~/lib/error';
 
 const HTTPS_OPTIONS = {
   http2: true,
@@ -22,6 +23,9 @@ export const buildServer = () => {
   const server = fastify({
     ...opts,
   });
+
+  server.setErrorHandler(errorHandler);
+  server.setNotFoundHandler(notFoundHandler);
 
   return server;
 };
