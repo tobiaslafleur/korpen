@@ -66,3 +66,86 @@ export const getUsers = async (
     throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
   }
 };
+
+export const getUserById = async (
+  request: FastifyRequest<{
+    Params: {
+      id: string;
+    };
+  }>,
+  reply: FastifyReply
+) => {
+  try {
+    const user = await usersService.getUserById(request.params.id);
+
+    if (!user) {
+      throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
+    }
+
+    return reply.status(200).send(user);
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      throw error;
+    }
+
+    throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
+  }
+};
+
+export const updateUserById = async (
+  request: FastifyRequest<{
+    Params: {
+      id: string;
+    };
+    Body: {
+      email?: string;
+      first_name?: string;
+      last_name?: string;
+    };
+  }>,
+  reply: FastifyReply
+) => {
+  try {
+    const user = await usersService.updateUserById(
+      request.params.id,
+      request.body
+    );
+
+    if (!user) {
+      throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
+    }
+
+    return reply.status(200).send(user);
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      throw error;
+    }
+
+    throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
+  }
+};
+
+export const deleteUserById = async (
+  request: FastifyRequest<{
+    Params: {
+      id: string;
+    };
+  }>,
+  reply: FastifyReply
+) => {
+  try {
+    const result = await usersService.deleteUserById(request.params.id);
+
+    if (result.numDeletedRows < 1) {
+      throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
+    }
+
+    return reply.status(204).send();
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      throw error;
+    }
+
+    throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
+  }
+};
