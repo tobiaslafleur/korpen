@@ -1,0 +1,25 @@
+CREATE EXTENSION IF NOT EXISTS CITEXT;
+
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TABLE IF NOT EXISTS users(
+  internal_id SERIAL PRIMARY KEY,
+  id VARCHAR UNIQUE NOT NULL DEFAULT CONCAT('user_', replace(cast(gen_random_uuid() AS text), '-', '')),
+  email CITEXT UNIQUE NOT NULL,
+  password VARCHAR NOT NULL,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE TRIGGER set_updated_at_users
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION trigger_set_timestamp();

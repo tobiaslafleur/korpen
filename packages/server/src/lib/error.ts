@@ -1,7 +1,7 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 
 type HTTPErrorProps = {
-  message: string;
+  message?: string;
   code: keyof typeof STATUS_CODES;
 };
 
@@ -14,7 +14,7 @@ export default class HTTPError extends Error {
   constructor({ message, code }: HTTPErrorProps) {
     super(message);
 
-    this.message = message;
+    this.message = message || 'Something went wrong';
     this.code = code;
     this.statusCode = STATUS_CODES[code];
     this.error = STATUS_CODE_MESSAGE[code];

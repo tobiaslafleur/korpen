@@ -8,6 +8,9 @@
     "start": "pnpm -r start",
     "dev": "pnpm -r dev",
     "lint": "pnpm -r lint",
-    "format": "pnpm -r format"
+    "format": "pnpm -r format",
+    "pg:migrate": "pnpm -r pg:migrate",
+    "pg:migrate-all": "pnpm -r pg:migrate --all",
+    "pg:types": "pnpm -r pg:types"
   }
 }

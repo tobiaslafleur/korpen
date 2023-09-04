@@ -4,19 +4,6 @@ import path from 'path';
 import config from '~/lib/config';
 import { errorHandler, notFoundHandler } from '~/lib/error';
 
-const HTTPS_OPTIONS = {
-  http2: true,
-  https: {
-    allowHTTP1: true,
-    key: fs.readFileSync(
-      path.join(__dirname, '..', '..', 'https', 'privatekey.key')
-    ),
-    cert: fs.readFileSync(
-      path.join(__dirname, '..', '..', 'https', 'certificate.crt')
-    ),
-  },
-};
-
 export const buildServer = () => {
   const opts = config.NODE_ENV === 'production' ? HTTPS_OPTIONS : {};
 
@@ -28,4 +15,17 @@ export const buildServer = () => {
   server.setNotFoundHandler(notFoundHandler);
 
   return server;
+};
+
+const HTTPS_OPTIONS = {
+  http2: true,
+  https: {
+    allowHTTP1: true,
+    key: fs.readFileSync(
+      path.join(__dirname, '..', '..', 'https', 'privatekey.key')
+    ),
+    cert: fs.readFileSync(
+      path.join(__dirname, '..', '..', 'https', 'certificate.crt')
+    ),
+  },
 };
