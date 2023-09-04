@@ -1,6 +1,7 @@
 import fastify from 'fastify';
 import fs from 'fs';
 import path from 'path';
+import routeHandler from '~/components/routers/v1/root';
 import config from '~/lib/config';
 import { errorHandler, notFoundHandler } from '~/lib/error';
 
@@ -9,6 +10,10 @@ export const buildServer = () => {
 
   const server = fastify({
     ...opts,
+  });
+
+  server.register(routeHandler, {
+    prefix: '/api/v1',
   });
 
   server.setErrorHandler(errorHandler);
