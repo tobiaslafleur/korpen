@@ -1,0 +1,25 @@
+{
+  "name": "@korpen/server",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Tobias la Fleur",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node dist/main.js",
+    "dev": "tsx watch --clear-screen=false src/main.ts",
+    "lint": "eslint --ext .js,.ts,.tsx .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "dependencies": {
+    "fastify": "^4.22.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "tsx": "^3.12.8",
+    "typescript": "^5.2.2"
+  }
+}
