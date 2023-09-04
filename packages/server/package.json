@@ -7,17 +7,22 @@
     "build": "tsc --build",
     "start": "node dist/main.js",
     "dev": "tsx watch --clear-screen=false src/main.ts",
-    "lint": "eslint --ext .js,.ts,.tsx .",
+    "lint": "eslint --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },
   "dependencies": {
-    "fastify": "^4.22.2"
+    "dotenv": "^16.3.1",
+    "fastify": "^4.22.2",
+    "pino": "^8.15.0",
+    "pino-pretty": "^10.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.3",
     "tsx": "^3.12.8",
     "typescript": "^5.2.2"
