@@ -1,0 +1,13 @@
+{
+  "name": "korpen",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Tobias la Fleur",
+  "scripts": {
+    "build": "pnpm -r build",
+    "start": "pnpm -r start",
+    "dev": "pnpm -r dev",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format"
+  }
+}
