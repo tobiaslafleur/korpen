@@ -1,13 +1,14 @@
 import { FastifyInstance } from 'fastify';
 import * as usersController from '~/components/controllers/users';
-import * as userSchemas from '~/components/schemas/users';
+import { paramsIdSchema } from '~/components/schemas/common';
+import * as usersSchemas from '~/components/schemas/users';
 
 const usersRouteHandler = async (server: FastifyInstance) => {
   server.post(
     '/',
     {
       schema: {
-        body: userSchemas.createUserSchema,
+        body: usersSchemas.createUserSchema,
       },
     },
     usersController.createUser
@@ -15,11 +16,36 @@ const usersRouteHandler = async (server: FastifyInstance) => {
 
   server.get('/', usersController.getUsers);
 
-  server.get('/:id', usersController.getUserById);
+  server.get(
+    '/:id',
+    {
+      schema: {
+        params: paramsIdSchema,
+      },
+    },
+    usersController.getUserById
+  );
 
-  server.patch('/:id', usersController.updateUserById);
+  server.patch(
+    '/:id',
+    {
+      schema: {
+        params: paramsIdSchema,
+        body: usersSchemas.updateUserSchema,
+      },
+    },
+    usersController.updateUserById
+  );
 
-  server.delete('/:id', usersController.deleteUserById);
+  server.delete(
+    '/:id',
+    {
+      schema: {
+        params: paramsIdSchema,
+      },
+    },
+    usersController.deleteUserById
+  );
 };
 
 export default usersRouteHandler;

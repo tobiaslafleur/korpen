@@ -32,4 +32,24 @@ export const createUserSchema = z
     path: ['confirm_password'],
   });
 
+export const updateUserSchema = z.object({
+  email: z
+    .string({
+      invalid_type_error: 'email must be of type string',
+    })
+    .email('email must be a valid email')
+    .optional(),
+  first_name: z
+    .string({
+      invalid_type_error: 'first_name must be of type string',
+    })
+    .optional(),
+  last_name: z
+    .string({
+      invalid_type_error: 'last_name must be of type string',
+    })
+    .optional(),
+});
+
 export type CreateUser = z.infer<typeof createUserSchema>;
+export type UpdateUser = z.infer<typeof updateUserSchema>;
