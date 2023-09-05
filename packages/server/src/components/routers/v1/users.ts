@@ -1,8 +1,17 @@
 import { FastifyInstance } from 'fastify';
 import * as usersController from '~/components/controllers/users';
+import * as userSchemas from '~/components/schemas/users';
 
 const usersRouteHandler = async (server: FastifyInstance) => {
-  server.post('/', usersController.createUser);
+  server.post(
+    '/',
+    {
+      schema: {
+        body: userSchemas.createUserSchema,
+      },
+    },
+    usersController.createUser
+  );
 
   server.get('/', usersController.getUsers);
 

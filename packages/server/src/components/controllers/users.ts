@@ -4,17 +4,10 @@ import * as usersService from '~/components/services/users';
 import { DatabaseError } from 'pg';
 import argon2 from 'argon2';
 import { omit } from '~/lib/utils';
+import { CreateUser } from '~/components/schemas/users';
 
 export const createUser = async (
-  request: FastifyRequest<{
-    Body: {
-      email: string;
-      password: string;
-      confirm_password: string;
-      first_name: string;
-      last_name: string;
-    };
-  }>,
+  request: FastifyRequest<{ Body: CreateUser }>,
   reply: FastifyReply
 ) => {
   try {
