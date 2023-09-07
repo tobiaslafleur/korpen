@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import sessionsRouteHandler from '~/components/routers/v1/sessions';
 import usersRouteHandler from '~/components/routers/v1/users';
 import { checkDbHealth } from '~/lib/db';
 import HTTPError from '~/lib/error';
@@ -18,6 +19,7 @@ const routeHandler = async (server: FastifyInstance) => {
   });
 
   server.register(usersRouteHandler, { prefix: '/users' });
+  server.register(sessionsRouteHandler, { prefix: '/sessions' });
 };
 
 export default routeHandler;

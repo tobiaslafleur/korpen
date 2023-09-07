@@ -9,18 +9,21 @@
     "dev": "tsx watch --clear-screen=false src/main.ts",
     "lint": "eslint --ext .js,.ts .",
     "format": "prettier --write \"**/*.+(js|ts|json)\"",
-    "pg:migrate": "tsx src/db/migrate.ts",
-    "pg:migrate-all": "tsx src/db/migrate.ts --all",
+    "pg:migrate": "tsx src/db/pg/migrate.ts",
+    "pg:migrate-all": "tsx src/db/pg/migrate.ts --all",
     "pg:types": "kysely-codegen"
   },
   "dependencies": {
+    "@fastify/cookie": "^9.0.4",
     "argon2": "^0.31.1",
+    "cron": "^2.4.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.22.2",
     "kysely": "^0.26.3",
     "pg": "^8.11.3",
     "pino": "^8.15.0",
     "pino-pretty": "^10.2.0",
+    "redis": "^4.6.8",
     "zod": "^3.22.2"
   },
   "devDependencies": {

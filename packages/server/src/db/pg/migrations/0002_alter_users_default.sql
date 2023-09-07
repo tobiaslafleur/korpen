@@ -1,0 +1,1 @@
+ALTER TABLE users ALTER COLUMN id SET DEFAULT CONCAT('usr_', replace(cast(gen_random_uuid() AS text), '-', ''));

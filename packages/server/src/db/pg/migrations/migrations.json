@@ -4,6 +4,11 @@
       "id": 1,
       "file": "0001_users_table.sql",
       "timestamp": 1693855456604
+    },
+    {
+      "id": 2,
+      "file": "0002_alter_users_default.sql",
+      "timestamp": 1693919343392
     }
   ]
 }

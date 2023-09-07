@@ -5,13 +5,19 @@ import routeHandler from '~/components/routers/v1/root';
 import config from '~/lib/config';
 import { errorHandler, notFoundHandler } from '~/lib/error';
 import validateRequest from '~/middlewares/validateRequest';
+import fastifyCookies from '@fastify/cookie';
+import redis from '~/db/redis';
 
-export const buildServer = () => {
+export const buildServer = async () => {
   const opts = config.NODE_ENV === 'production' ? HTTPS_OPTIONS : {};
+
+  await redis.connect();
 
   const server = fastify({
     ...opts,
   });
+
+  server.register(fastifyCookies);
 
   server.setValidatorCompiler(validateRequest);
 
