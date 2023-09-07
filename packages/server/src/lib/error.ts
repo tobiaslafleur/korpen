@@ -75,7 +75,7 @@ export const notFoundHandler = (
     timestamp: Date.now(),
     status: STATUS_CODES['NOT_FOUND'],
     error: STATUS_CODE_MESSAGE['NOT_FOUND'],
-    message: 'Resource not found',
+    message: 'API endpoint does not exist',
     path: request.url,
   });
 };

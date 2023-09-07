@@ -32,10 +32,10 @@ export const getUsers = async () => {
     .execute();
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (userId: string) => {
   return await pg
     .selectFrom('users')
-    .where('id', '=', id)
+    .where('id', '=', userId)
     .select([
       'id',
       'email',
@@ -47,10 +47,10 @@ export const getUserById = async (id: string) => {
     .executeTakeFirst();
 };
 
-export const getUserByEmailWithPassword = async (email: string) => {
+export const getUserByEmailWithPassword = async (userEmail: string) => {
   return await pg
     .selectFrom('users')
-    .where('email', '=', email)
+    .where('email', '=', userEmail)
     .select([
       'id',
       'email',
@@ -64,13 +64,13 @@ export const getUserByEmailWithPassword = async (email: string) => {
 };
 
 export const updateUserById = async (
-  id: string,
+  userId: string,
   values: UpdateObject<DB, 'users'>
 ) => {
   return await pg
     .updateTable('users')
     .set(values)
-    .where('id', '=', id)
+    .where('id', '=', userId)
     .returning([
       'id',
       'email',
