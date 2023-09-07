@@ -12,7 +12,7 @@ export const createSession = async (userId: string) => {
     redis.sAdd(USER_KEY, JSON.stringify({ sessionId })),
   ]);
 
-  await redis.expire(SESSION_KEY, 60);
+  await redis.expire(SESSION_KEY, 60 * 60);
 
   return sessionId;
 };

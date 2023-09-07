@@ -7,6 +7,8 @@ import { errorHandler, notFoundHandler } from '~/lib/error';
 import validateRequest from '~/middlewares/validateRequest';
 import fastifyCookies from '@fastify/cookie';
 import redis from '~/db/redis';
+import deserializeSession from '~/middlewares/deserializeSession';
+import authenticate from '~/middlewares/authenticate';
 
 export const buildServer = async () => {
   const opts = config.NODE_ENV === 'production' ? HTTPS_OPTIONS : {};
@@ -18,6 +20,11 @@ export const buildServer = async () => {
   });
 
   server.register(fastifyCookies);
+
+  server.decorate('session', null);
+  server.addHook('preHandler', deserializeSession);
+
+  server.decorate('authenticate', authenticate);
 
   server.setValidatorCompiler(validateRequest);
 

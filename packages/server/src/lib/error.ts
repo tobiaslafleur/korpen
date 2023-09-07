@@ -48,6 +48,8 @@ export const errorHandler = (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
+  console.log(error);
+
   if (error instanceof HTTPError) {
     return reply.status(error.statusCode).send({
       timestamp: Date.now(),

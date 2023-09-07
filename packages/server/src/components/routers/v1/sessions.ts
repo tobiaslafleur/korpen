@@ -1,10 +1,25 @@
 import { FastifyInstance } from 'fastify';
 import * as sessionsController from '~/components/controllers/sessions';
+import * as sessionsSchemas from '~/components/schemas/sessions';
 
 const sessionsRouteHandler = async (server: FastifyInstance) => {
-  server.post('/', sessionsController.createSession);
+  server.post(
+    '/',
+    {
+      schema: {
+        body: sessionsSchemas.loginSchema,
+      },
+    },
+    sessionsController.createSession
+  );
 
-  server.get('/:id', sessionsController.getSessions);
+  server.get(
+    '/:id',
+    {
+      preHandler: [server.authenticate],
+    },
+    sessionsController.getSessions
+  );
 };
 
 export default sessionsRouteHandler;

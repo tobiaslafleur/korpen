@@ -2,7 +2,7 @@ import { CronJob } from 'cron';
 import redis from '~/db/redis';
 import logger from '~/lib/logger';
 
-export const cleanupRedis = new CronJob('*/5 * * * * *', async () => {
+export const cleanupRedis = new CronJob('* */5 * * * *', async () => {
   let cursor = 0;
   const pattern = 'user:*';
   const userIds: string[] = [];
@@ -13,9 +13,8 @@ export const cleanupRedis = new CronJob('*/5 * * * * *', async () => {
       MATCH: pattern,
     });
 
-    userIds.push(...keys);
-
     cursor = newCursor;
+    userIds.push(...keys);
   } while (cursor !== 0);
 
   userIds.forEach(async userId => {

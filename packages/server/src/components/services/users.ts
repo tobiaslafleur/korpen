@@ -47,6 +47,22 @@ export const getUserById = async (id: string) => {
     .executeTakeFirst();
 };
 
+export const getUserByEmailWithPassword = async (email: string) => {
+  return await pg
+    .selectFrom('users')
+    .where('email', '=', email)
+    .select([
+      'id',
+      'email',
+      'password',
+      'first_name',
+      'last_name',
+      'created_at',
+      'updated_at',
+    ])
+    .executeTakeFirst();
+};
+
 export const updateUserById = async (
   id: string,
   values: UpdateObject<DB, 'users'>

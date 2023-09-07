@@ -29,6 +29,7 @@ const usersRouteHandler = async (server: FastifyInstance) => {
   server.patch(
     '/:id',
     {
+      preHandler: [server.authenticate],
       schema: {
         params: paramsIdSchema,
         body: usersSchemas.updateUserSchema,
@@ -40,6 +41,7 @@ const usersRouteHandler = async (server: FastifyInstance) => {
   server.delete(
     '/:id',
     {
+      preHandler: [server.authenticate],
       schema: {
         params: paramsIdSchema,
       },

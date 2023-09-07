@@ -1,19 +1,47 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import HTTPError from '~/lib/error';
 import * as sessionsService from '~/components/services/sessions';
+import * as usersService from '~/components/services/users';
+import { Login } from '~/components/schemas/sessions';
+import argon2 from 'argon2';
 
 export const createSession = async (
-  request: FastifyRequest,
+  request: FastifyRequest<{ Body: Login }>,
   reply: FastifyReply
 ) => {
   try {
-    const session = await sessionsService.createSession(
-      'usr_56e4b487eb06459b88e5bb21f81a1b7f'
+    const user = await usersService.getUserByEmailWithPassword(
+      request.body.email
     );
 
-    reply.header('set-cookie', `session=${session}`);
+    if (!user) {
+      throw new HTTPError({
+        code: 'BAD_REQUEST',
+        message: 'Invalid email or password',
+      });
+    }
 
-    return reply.status(201).send(session);
+    const validPassword = await argon2.verify(
+      user.password,
+      request.body.password
+    );
+
+    if (!validPassword) {
+      throw new HTTPError({
+        code: 'BAD_REQUEST',
+        message: 'Invalid email or password',
+      });
+    }
+
+    const session = await sessionsService.createSession(user.id);
+
+    reply.setCookie('session', session, {
+      maxAge: 60 * 60,
+      httpOnly: true,
+      secure: true,
+    });
+
+    return reply.status(201).send({ session });
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
@@ -30,7 +58,7 @@ export const getSessions = async (
   try {
     const sessions = await sessionsService.getSessions(request.params.id);
 
-    if (!sessions) {
+    if (!sessions || sessions.length < 1) {
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
     }
 
