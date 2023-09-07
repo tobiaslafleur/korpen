@@ -5,4 +5,5 @@ export default {
   HOST: String(process.env.HOST),
   PORT: Number(process.env.PORT),
   DATABASE_URL: String(process.env.DATABASE_URL),
+  REDIS_URL: String(process.env.REDIS_URL),
 };

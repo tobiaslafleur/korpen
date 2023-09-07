@@ -1,7 +1,8 @@
 import { createClient } from 'redis';
+import config from '~/lib/config';
 
 const redis = createClient({
-  url: 'redis://default:redispassword@129.151.214.166:6379/0',
+  url: config.REDIS_URL,
 });
 
 export default redis;
