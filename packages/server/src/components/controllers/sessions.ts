@@ -36,6 +36,7 @@ export const createSession = async (
     const session = await sessionsService.createSession(user.id);
 
     reply.setCookie('session', session, {
+      path: '/',
       maxAge: 60 * 60,
       httpOnly: true,
       secure: true,
@@ -72,14 +73,17 @@ export const getSessions = async (
   }
 };
 
-export const deleteSessionById = async (
+export const deleteSession = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
   try {
     await sessionsService.deleteSessionById(request.session.sessionId);
 
-    reply.clearCookie('session');
+    reply.clearCookie('session', {
+      secure: true,
+      httpOnly: true,
+    });
 
     return reply.status(204).send();
   } catch (error) {

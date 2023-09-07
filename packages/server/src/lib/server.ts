@@ -19,7 +19,7 @@ export const buildServer = async () => {
     ...opts,
   });
 
-  server.register(fastifyCookies);
+  server.register(fastifyCookies, {});
 
   server.decorate('session', null);
   server.addHook('preHandler', deserializeSession);

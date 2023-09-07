@@ -9,6 +9,11 @@
       "id": 2,
       "file": "0002_alter_users_default.sql",
       "timestamp": 1693919343392
+    },
+    {
+      "id": 3,
+      "file": "0003_instructors_table.sql",
+      "timestamp": 1694119295790
     }
   ]
 }

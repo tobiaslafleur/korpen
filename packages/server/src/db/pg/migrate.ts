@@ -26,7 +26,7 @@ const migrate = async () => {
 
     const currentMigration = currentMigrations.slice(-1)[0];
 
-    const migrations = await fs.readdir('./src/db/migrations');
+    const migrations = await fs.readdir('./src/db//pg/migrations');
 
     const filteredMigrations = migrations.filter(
       migration => migration.split('.')[1] === 'sql'
@@ -42,7 +42,7 @@ const migrate = async () => {
         parseInt(currentVersion) > (currentMigration?.id ?? -1)
       ) {
         const sqlFromFile = await fs.readFile(
-          `./src/db/migrations/${migration}`,
+          `./src/db/pg/migrations/${migration}`,
           'utf-8'
         );
 
@@ -66,7 +66,7 @@ const migrate = async () => {
 const getCurrentMigrations = async (): Promise<Migration[]> => {
   try {
     const json = await fs.readFile(
-      './src/db/migrations/migrations.json',
+      './src/db/pg/migrations/migrations.json',
       'utf-8'
     );
 
@@ -90,7 +90,7 @@ const addNewMigration = async (newMigration: Migration) => {
 
     const json = JSON.stringify({ migrations: currentMigrations }, null, 2);
 
-    await fs.writeFile('./src/db/migrations/migrations.json', json, 'utf-8');
+    await fs.writeFile('./src/db/pg/migrations/migrations.json', json, 'utf-8');
   } catch (error) {
     logger.error('Error adding migration history');
   }
