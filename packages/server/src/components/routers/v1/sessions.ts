@@ -20,6 +20,14 @@ const sessionsRouteHandler = async (server: FastifyInstance) => {
     },
     sessionsController.getSessions
   );
+
+  server.delete(
+    '/',
+    {
+      preHandler: [server.authenticate],
+    },
+    sessionsController.deleteSessionById
+  );
 };
 
 export default sessionsRouteHandler;

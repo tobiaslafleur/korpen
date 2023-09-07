@@ -71,3 +71,22 @@ export const getSessions = async (
     throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
   }
 };
+
+export const deleteSessionById = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    await sessionsService.deleteSessionById(request.session.sessionId);
+
+    reply.clearCookie('session');
+
+    return reply.status(204).send();
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      throw error;
+    }
+
+    throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
+  }
+};

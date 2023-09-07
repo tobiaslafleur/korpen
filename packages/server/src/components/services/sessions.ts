@@ -24,3 +24,9 @@ export const getSessions = async (userId: string) => {
 
   return res.map(session => JSON.parse(session));
 };
+
+export const deleteSessionById = async (sessionId: string) => {
+  const SESSION_KEY = `session:${sessionId}`;
+
+  await redis.del(SESSION_KEY);
+};

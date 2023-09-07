@@ -44,8 +44,6 @@ export const getUsers = async (
   reply: FastifyReply
 ) => {
   try {
-    console.log(_request.session);
-
     const users = await usersService.getUsers();
 
     if (!users) {
