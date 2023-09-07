@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'fastify' {
   export interface FastifyInstance {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authenticate: any;
+    sanitizeRequest: any;
   }
 
   export interface FastifyRequest {

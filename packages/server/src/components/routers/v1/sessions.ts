@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import * as sessionsController from '~/components/controllers/sessions';
+import { paramsIdSchema } from '~/components/schemas/common';
 import * as sessionsSchemas from '~/components/schemas/sessions';
 
 const sessionsRouteHandler = async (server: FastifyInstance) => {
@@ -16,7 +17,13 @@ const sessionsRouteHandler = async (server: FastifyInstance) => {
   server.get(
     '/:id',
     {
-      preHandler: [server.authenticate],
+      preHandler: [
+        server.authenticate,
+        server.sanitizeRequest({ params: paramsIdSchema }),
+      ],
+      schema: {
+        params: paramsIdSchema,
+      },
     },
     sessionsController.getSessions
   );
@@ -27,6 +34,12 @@ const sessionsRouteHandler = async (server: FastifyInstance) => {
       preHandler: [server.authenticate],
     },
     sessionsController.deleteSession
+  );
+
+  server.get(
+    '/me',
+    { preHandler: [server.authenticate] },
+    sessionsController.getUser
   );
 };
 

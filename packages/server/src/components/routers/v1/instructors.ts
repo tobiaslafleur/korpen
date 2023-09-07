@@ -7,7 +7,12 @@ const instructorsRouteHandler = async (server: FastifyInstance) => {
   server.post(
     '/',
     {
-      preHandler: [server.authenticate],
+      preHandler: [
+        server.authenticate,
+        server.sanitizeRequest({
+          body: instructorsSchemas.createInstructorSchema,
+        }),
+      ],
       schema: {
         body: instructorsSchemas.createInstructorSchema,
       },
@@ -17,12 +22,27 @@ const instructorsRouteHandler = async (server: FastifyInstance) => {
 
   server.get('/', instructorsController.getInstructors);
 
-  server.get('/:id', instructorsController.getInstructorById);
+  server.get(
+    '/:id',
+    {
+      preHandler: [server.sanitizeRequest({ params: paramsIdSchema })],
+      schema: {
+        params: paramsIdSchema,
+      },
+    },
+    instructorsController.getInstructorById
+  );
 
   server.patch(
     '/:id',
     {
-      preHandler: [server.authenticate],
+      preHandler: [
+        server.authenticate,
+        server.sanitizeRequest({
+          params: paramsIdSchema,
+          body: instructorsSchemas.updateInstructorSchema,
+        }),
+      ],
       schema: {
         params: paramsIdSchema,
         body: instructorsSchemas.updateInstructorSchema,
@@ -34,7 +54,10 @@ const instructorsRouteHandler = async (server: FastifyInstance) => {
   server.delete(
     '/:id',
     {
-      preHandler: [server.authenticate],
+      preHandler: [
+        server.authenticate,
+        server.sanitizeRequest({ params: paramsIdSchema }),
+      ],
       schema: {
         params: paramsIdSchema,
       },

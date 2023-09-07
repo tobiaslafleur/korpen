@@ -19,14 +19,18 @@ export const createInstructorSchema = z.object(
 
 export const updateInstructorSchema = z.object(
   {
-    first_name: z.string({
-      invalid_type_error: 'first_name must be of type string',
-      required_error: 'first_name is required',
-    }),
-    last_name: z.string({
-      invalid_type_error: 'last_name must be of type string',
-      required_error: 'last_name is required',
-    }),
+    first_name: z
+      .string({
+        invalid_type_error: 'first_name must be of type string',
+        required_error: 'first_name is required',
+      })
+      .optional(),
+    last_name: z
+      .string({
+        invalid_type_error: 'last_name must be of type string',
+        required_error: 'last_name is required',
+      })
+      .optional(),
   },
   {
     invalid_type_error: 'Input must be a JSON object',

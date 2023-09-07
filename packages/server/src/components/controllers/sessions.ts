@@ -94,3 +94,23 @@ export const deleteSession = async (
     throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
   }
 };
+
+export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const user = await usersService.getUserById(request.session.userId);
+
+    if (!user) {
+      throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
+    }
+
+    return reply
+      .status(200)
+      .send({ session: request.session.sessionId, ...user });
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      throw error;
+    }
+
+    throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
+  }
+};

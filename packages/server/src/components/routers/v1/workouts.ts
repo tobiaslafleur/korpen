@@ -1,23 +1,24 @@
 import { FastifyInstance } from 'fastify';
-import * as usersController from '~/components/controllers/users';
+import * as workoutsController from '~/components/controllers/workouts';
 import { paramsIdSchema } from '~/components/schemas/common';
-import * as usersSchemas from '~/components/schemas/users';
+import * as workoutsSchemas from '~/components/schemas/workouts';
 
-const usersRouteHandler = async (server: FastifyInstance) => {
+const workoutsRouteHandler = async (server: FastifyInstance) => {
   server.post(
     '/',
     {
       preHandler: [
-        server.sanitizeRequest({ body: usersSchemas.createUserSchema }),
+        server.authenticate,
+        server.sanitizeRequest({ body: workoutsSchemas.createWorkoutSchema }),
       ],
       schema: {
-        body: usersSchemas.createUserSchema,
+        body: workoutsSchemas.createWorkoutSchema,
       },
     },
-    usersController.createUser
+    workoutsController.createWorkout
   );
 
-  server.get('/', usersController.getUsers);
+  server.get('/', workoutsController.getWorkouts);
 
   server.get(
     '/:id',
@@ -27,7 +28,7 @@ const usersRouteHandler = async (server: FastifyInstance) => {
         params: paramsIdSchema,
       },
     },
-    usersController.getUserById
+    workoutsController.getWorkoutById
   );
 
   server.patch(
@@ -37,15 +38,15 @@ const usersRouteHandler = async (server: FastifyInstance) => {
         server.authenticate,
         server.sanitizeRequest({
           params: paramsIdSchema,
-          body: usersSchemas.updateUserSchema,
+          body: workoutsSchemas.updateWorkoutSchema,
         }),
       ],
       schema: {
         params: paramsIdSchema,
-        body: usersSchemas.updateUserSchema,
+        body: workoutsSchemas.updateWorkoutSchema,
       },
     },
-    usersController.updateUserById
+    workoutsController.updateWorkoutById
   );
 
   server.delete(
@@ -59,8 +60,8 @@ const usersRouteHandler = async (server: FastifyInstance) => {
         params: paramsIdSchema,
       },
     },
-    usersController.deleteUserById
+    workoutsController.deleteWorkoutById
   );
 };
 
-export default usersRouteHandler;
+export default workoutsRouteHandler;

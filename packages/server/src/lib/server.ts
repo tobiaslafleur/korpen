@@ -9,6 +9,7 @@ import fastifyCookies from '@fastify/cookie';
 import redis from '~/db/redis';
 import deserializeSession from '~/middlewares/deserializeSession';
 import authenticate from '~/middlewares/authenticate';
+import sanitizeRequest from '~/middlewares/santizeRequest';
 
 export const buildServer = async () => {
   const opts = config.NODE_ENV === 'production' ? HTTPS_OPTIONS : {};
@@ -25,6 +26,7 @@ export const buildServer = async () => {
   server.addHook('preHandler', deserializeSession);
 
   server.decorate('authenticate', authenticate);
+  server.decorate('sanitizeRequest', sanitizeRequest);
 
   server.setValidatorCompiler(validateRequest);
 

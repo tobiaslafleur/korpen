@@ -99,6 +99,13 @@ export const updateUserById = async (
   reply: FastifyReply
 ) => {
   try {
+    if (Object.keys(request.body).length === 0) {
+      throw new HTTPError({
+        code: 'BAD_REQUEST',
+        message: 'No fields were sent',
+      });
+    }
+
     const user = await usersService.updateUserById(
       request.params.id,
       request.body

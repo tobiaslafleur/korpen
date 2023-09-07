@@ -2,27 +2,35 @@ import { InsertObject, UpdateObject } from 'kysely';
 import { DB } from 'kysely-codegen';
 import pg from '~/db/pg';
 
+const SELECT = [
+  'id',
+  'first_name',
+  'last_name',
+  'created_at',
+  'updated_at',
+] as const;
+
 export const createInstructor = async (
   values: InsertObject<DB, 'instructors'>
 ) => {
   return await pg
     .insertInto('instructors')
     .values(values)
-    .returning(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+    .returning([...SELECT])
     .executeTakeFirst();
 };
 
 export const getInstructors = async () => {
   return await pg
     .selectFrom('instructors')
-    .select(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+    .select([...SELECT])
     .execute();
 };
 
 export const getInstructorById = async (instructorId: string) => {
   return await pg
     .selectFrom('instructors')
-    .select(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+    .select([...SELECT])
     .where('id', '=', instructorId)
     .executeTakeFirst();
 };
@@ -35,7 +43,7 @@ export const updateInstructorById = async (
     .updateTable('instructors')
     .set(values)
     .where('id', '=', instructorId)
-    .returning(['id', 'first_name', 'last_name', 'created_at', 'updated_at'])
+    .returning([...SELECT])
     .executeTakeFirst();
 };
 

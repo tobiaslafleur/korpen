@@ -1,53 +1,46 @@
-import { DatabaseError } from 'pg';
-import HTTPError from '~/lib/error';
-import * as instructorsService from '~/components/services/instructors';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import {
-  CreateInstructor,
-  UpdateInstructor,
-} from '~/components/schemas/instructors';
 import { ParamsId } from '~/components/schemas/common';
+import { CreateWorkout, UpdateWorkout } from '~/components/schemas/workouts';
+import * as workoutsService from '~/components/services/workouts';
+import HTTPError from '~/lib/error';
 
-export const createInstructor = async (
-  request: FastifyRequest<{ Body: CreateInstructor }>,
+export const createWorkout = async (
+  request: FastifyRequest<{ Body: CreateWorkout }>,
   reply: FastifyReply
 ) => {
   try {
-    const instructor = await instructorsService.createInstructor(request.body);
+    console.log('asdasd');
 
-    if (!instructor) {
+    const workout = await workoutsService.createWorkout(request.body);
+
+    if (!workout) {
       throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
     }
 
-    return reply.status(201).send(instructor);
+    return reply.status(201).send(workout);
   } catch (error) {
+    console.log(error);
+
     if (error instanceof HTTPError) {
       throw error;
-    } else if (error instanceof DatabaseError) {
-      if (error.code === '23505') {
-        throw new HTTPError({
-          code: 'CONFLICT',
-          message: 'User already exists',
-        });
-      }
     }
 
     throw new HTTPError({ code: 'INTERNAL_SERVER_ERROR' });
   }
 };
 
-export const getInstructors = async (
+export const getWorkouts = async (
   _request: FastifyRequest,
   reply: FastifyReply
 ) => {
   try {
-    const instructors = await instructorsService.getInstructors();
+    const workouts = await workoutsService.getWorkouts();
 
-    if (!instructors) {
+    if (!workouts) {
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
     }
 
-    return reply.status(200).send(instructors);
+    return reply.status(200).send(workouts);
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
@@ -57,20 +50,18 @@ export const getInstructors = async (
   }
 };
 
-export const getInstructorById = async (
+export const getWorkoutById = async (
   request: FastifyRequest<{ Params: ParamsId }>,
   reply: FastifyReply
 ) => {
   try {
-    const instructor = await instructorsService.getInstructorById(
-      request.params.id
-    );
+    const workout = await workoutsService.getWorkoutById(request.params.id);
 
-    if (!instructor) {
+    if (!workout) {
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
     }
 
-    return reply.status(200).send(instructor);
+    return reply.status(200).send(workout);
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
@@ -80,8 +71,8 @@ export const getInstructorById = async (
   }
 };
 
-export const updateInstructorById = async (
-  request: FastifyRequest<{ Params: ParamsId; Body: UpdateInstructor }>,
+export const updateWorkoutById = async (
+  request: FastifyRequest<{ Params: ParamsId; Body: UpdateWorkout }>,
   reply: FastifyReply
 ) => {
   try {
@@ -92,16 +83,16 @@ export const updateInstructorById = async (
       });
     }
 
-    const instructor = await instructorsService.updateInstructorById(
+    const workout = await workoutsService.updateWorkoutById(
       request.params.id,
       request.body
     );
 
-    if (!instructor) {
+    if (!workout) {
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
     }
 
-    return reply.status(200).send(instructor);
+    return reply.status(200).send(workout);
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
@@ -111,14 +102,12 @@ export const updateInstructorById = async (
   }
 };
 
-export const deleteInstructorById = async (
+export const deleteWorkoutById = async (
   request: FastifyRequest<{ Params: ParamsId }>,
   reply: FastifyReply
 ) => {
   try {
-    const result = await instructorsService.deleteInstructorById(
-      request.params.id
-    );
+    const result = await workoutsService.deleteWorkoutById(request.params.id);
 
     if (result.numDeletedRows < 1) {
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });

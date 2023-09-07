@@ -2,32 +2,27 @@ import { InsertObject, UpdateObject } from 'kysely';
 import { DB } from 'kysely-codegen';
 import pg from '~/db/pg';
 
+const SELECT = [
+  'id',
+  'email',
+  'first_name',
+  'last_name',
+  'created_at',
+  'updated_at',
+] as const;
+
 export const createUser = async (values: InsertObject<DB, 'users'>) => {
   return await pg
     .insertInto('users')
     .values(values)
-    .returning([
-      'id',
-      'email',
-      'first_name',
-      'last_name',
-      'created_at',
-      'updated_at',
-    ])
+    .returning([...SELECT])
     .executeTakeFirst();
 };
 
 export const getUsers = async () => {
   return await pg
     .selectFrom('users')
-    .select([
-      'id',
-      'email',
-      'first_name',
-      'last_name',
-      'created_at',
-      'updated_at',
-    ])
+    .select([...SELECT])
     .orderBy('internal_id')
     .execute();
 };
@@ -36,14 +31,7 @@ export const getUserById = async (userId: string) => {
   return await pg
     .selectFrom('users')
     .where('id', '=', userId)
-    .select([
-      'id',
-      'email',
-      'first_name',
-      'last_name',
-      'created_at',
-      'updated_at',
-    ])
+    .select([...SELECT])
     .executeTakeFirst();
 };
 
@@ -51,15 +39,7 @@ export const getUserByEmailWithPassword = async (userEmail: string) => {
   return await pg
     .selectFrom('users')
     .where('email', '=', userEmail)
-    .select([
-      'id',
-      'email',
-      'password',
-      'first_name',
-      'last_name',
-      'created_at',
-      'updated_at',
-    ])
+    .select([...SELECT, 'password'])
     .executeTakeFirst();
 };
 
@@ -71,14 +51,7 @@ export const updateUserById = async (
     .updateTable('users')
     .set(values)
     .where('id', '=', userId)
-    .returning([
-      'id',
-      'email',
-      'first_name',
-      'last_name',
-      'created_at',
-      'updated_at',
-    ])
+    .returning([...SELECT])
     .executeTakeFirst();
 };
 
