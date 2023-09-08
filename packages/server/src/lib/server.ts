@@ -10,6 +10,7 @@ import redis from '~/db/redis';
 import deserializeSession from '~/middlewares/deserializeSession';
 import authenticate from '~/middlewares/authenticate';
 import sanitizeRequest from '~/middlewares/santizeRequest';
+import fastifyCors from '@fastify/cors';
 
 export const buildServer = async () => {
   const opts = config.NODE_ENV === 'production' ? HTTPS_OPTIONS : {};
@@ -18,6 +19,11 @@ export const buildServer = async () => {
 
   const server = fastify({
     ...opts,
+  });
+
+  server.register(fastifyCors, {
+    credentials: true,
+    origin: true,
   });
 
   server.register(fastifyCookies, {});

@@ -14,7 +14,7 @@ const main = async () => {
     gracefulShutdown(server);
   }
 
-  server.listen({ port: config.PORT, host: config.HOST }, (error, address) => {
+  server.listen({ port: config.PORT }, (error, address) => {
     if (error) gracefulShutdown(server);
 
     cleanupRedis.start();

@@ -1,3 +1,4 @@
+import { omit } from '~/lib/utils';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import HTTPError from '~/lib/error';
 import * as sessionsService from '~/components/services/sessions';
@@ -37,12 +38,12 @@ export const createSession = async (
 
     reply.setCookie('session', session, {
       path: '/',
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
       httpOnly: true,
       secure: true,
     });
 
-    return reply.status(201).send({ session });
+    return reply.status(201).send({ session, ...omit(user, ['password']) });
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;

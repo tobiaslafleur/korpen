@@ -4,13 +4,13 @@
   "private": true,
   "author": "Tobias la Fleur",
   "scripts": {
-    "build": "pnpm -r build",
-    "start": "pnpm -r start",
-    "dev": "pnpm -r dev",
-    "lint": "pnpm -r lint",
-    "format": "pnpm -r format",
-    "pg:migrate": "pnpm -r pg:migrate",
-    "pg:migrate-all": "pnpm -r pg:migrate --all",
-    "pg:types": "pnpm -r pg:types"
+    "build": "pnpm -r --parallel build",
+    "start": "pnpm -r --parallel start",
+    "dev": "pnpm -r --parallel dev",
+    "lint": "pnpm -r --parallel lint",
+    "format": "pnpm -r --parallel format",
+    "pg:migrate": "pnpm -r --parallel pg:migrate",
+    "pg:migrate-all": "pnpm -r --parallel pg:migrate --all",
+    "pg:types": "pnpm -r --parallel pg:types"
   }
 }
