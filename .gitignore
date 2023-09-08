@@ -2,6 +2,11 @@ node_modules/
 dist/
 .next/
 https/
+out/
+build/
 
 .env
 .env.local
+
+*.tsbuildinfo
+next-env.d.ts

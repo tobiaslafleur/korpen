@@ -63,7 +63,7 @@ export const getSessions = async (
       throw new HTTPError({ code: 'NOT_FOUND', message: 'Resource not found' });
     }
 
-    return reply.status(201).send(sessions);
+    return reply.status(200).send(sessions);
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
