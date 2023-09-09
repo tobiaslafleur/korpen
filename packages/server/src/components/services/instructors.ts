@@ -24,6 +24,7 @@ export const getInstructors = async () => {
   return await pg
     .selectFrom('instructors')
     .select([...SELECT])
+    .orderBy('created_at')
     .execute();
 };
 

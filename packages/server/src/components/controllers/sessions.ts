@@ -38,7 +38,7 @@ export const createSession = async (
 
     reply.setCookie('session', session, {
       path: '/',
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60,
       httpOnly: true,
       secure: true,
     });

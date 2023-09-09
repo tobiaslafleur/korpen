@@ -1,6 +1,23 @@
 import { ReactNode } from 'react';
 import './globals.css';
 import type { Metadata } from 'next';
+import { Poppins, Inter } from 'next/font/google';
+import ReactQueryProvider from '~/context/react-query-provider';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'auto',
+  preload: true,
+  variable: '--font-inter',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  display: 'auto',
+  preload: true,
+  variable: '--font-poppins',
+});
 
 export const metadata: Metadata = {
   title: 'Korpen Vellinge',
@@ -9,8 +26,12 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en">
-      <body className="bg-zinc-100">{children}</body>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <body className="h-screen bg-zinc-100">
+        <ReactQueryProvider>
+          <div className="font-serif">{children}</div>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 };

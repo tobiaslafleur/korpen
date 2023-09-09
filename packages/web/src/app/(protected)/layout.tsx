@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
-import SessionContexProvider from '~/components/session-context';
+import SessionContexProvider from '~/context/session-context';
 import useServerSession from '~/lib/sessions';
 
 const ProtectedLayout = async ({ children }: { children: ReactNode }) => {
@@ -9,7 +9,7 @@ const ProtectedLayout = async ({ children }: { children: ReactNode }) => {
   if (!session) redirect('/sign-in');
 
   return (
-    <main className="flex h-screen items-center justify-center text-sm ">
+    <main className="container mx-auto mt-4">
       <SessionContexProvider session={session}>
         {children}
       </SessionContexProvider>

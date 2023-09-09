@@ -11,9 +11,13 @@ export const metadata: Metadata = {
 const SignInPage = async () => {
   const session = await useServerSession();
 
-  if (session) redirect('/');
+  if (session) redirect('/dashboard');
 
-  return <SignIn />;
+  return (
+    <div className="w-full px-8 sm:max-w-md">
+      <SignIn />
+    </div>
+  );
 };
 
 export default SignInPage;
